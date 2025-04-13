@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Bell, HelpCircle, Menu, Settings } from "lucide-react";
+import { Bell, HelpCircle, Menu, X, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
@@ -11,10 +11,11 @@ import { useNavigate } from "react-router-dom";
 
 interface HeaderProps {
   setSidebarOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  sidebarOpen?: boolean;
   className?: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ setSidebarOpen, className }) => {
+const Header: React.FC<HeaderProps> = ({ setSidebarOpen, sidebarOpen, className }) => {
   const isMobile = useIsMobile();
   const navigate = useNavigate();
   
@@ -40,20 +41,24 @@ const Header: React.FC<HeaderProps> = ({ setSidebarOpen, className }) => {
     });
   };
 
+  const toggleSidebar = () => {
+    if (setSidebarOpen) {
+      setSidebarOpen(prev => !prev);
+    }
+  };
+
   return (
     <header className={cn("w-full flex items-center justify-between px-3 sm:px-4 md:px-6 py-3 bg-white border-b", className)}>
       <div className="flex items-center">
-        {isMobile && (
-          <Button 
-            variant="ghost" 
-            size="icon"
-            onClick={() => setSidebarOpen && setSidebarOpen(prev => !prev)}
-            className="mr-2"
-          >
-            <Menu className="h-5 w-5" />
-            <span className="sr-only">Toggle menu</span>
-          </Button>
-        )}
+        <Button 
+          variant="ghost" 
+          size="icon"
+          onClick={toggleSidebar}
+          className="mr-2"
+          aria-label="Toggle menu"
+        >
+          {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </Button>
         <div 
           className="flex items-center cursor-pointer group"
           onClick={handleLogoClick}

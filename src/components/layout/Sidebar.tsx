@@ -10,7 +10,8 @@ import {
   User, 
   LogOut,
   Stethoscope,
-  Hospital
+  Hospital,
+  ChevronLeft
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -82,14 +83,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen, className }) => {
   return (
     <div 
       className={cn(
-        "fixed inset-y-0 left-0 z-50 w-64 bg-white border-r transition-transform duration-300 ease-in-out transform",
-        isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0",
-        "md:relative md:inset-auto",
+        "fixed inset-y-0 left-0 z-50 w-64 bg-white border-r transition-transform duration-300 ease-in-out",
+        isOpen ? "translate-x-0" : "-translate-x-full",
+        "md:shadow-lg",
         className
       )}
+      aria-hidden={!isOpen}
     >
       <div className="flex flex-col h-full">
-        <div className="p-4 border-b">
+        <div className="flex justify-between items-center p-4 border-b">
           <div 
             className="flex items-center cursor-pointer group"
             onClick={() => navigate("/")}
@@ -99,6 +101,18 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen, className }) => {
             </div>
             <h2 className="text-xl font-bold text-hospital-dark group-hover:text-hospital-primary transition-colors">HealthQueue</h2>
           </div>
+          
+          {isMobile && (
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => setIsOpen(false)}
+              className="md:hidden"
+              aria-label="Close sidebar"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </Button>
+          )}
         </div>
         
         <nav className="flex-1 overflow-auto py-4">

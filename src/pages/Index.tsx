@@ -97,6 +97,13 @@ const Index = () => {
     });
   };
 
+  const handleSelectDepartment = (department: string) => {
+    toast({
+      title: "Department Selected",
+      description: `You selected the ${department} department`,
+    });
+  };
+
   return (
     <Layout>
       <div className="mb-4 sm:mb-6">
@@ -128,7 +135,7 @@ const Index = () => {
               <TabsTrigger value="queue">Queue Status</TabsTrigger>
             </TabsList>
             <TabsContent value="departments" className="pt-4">
-              <DepartmentSelector />
+              <DepartmentSelector onSelectDepartment={handleSelectDepartment} />
             </TabsContent>
             <TabsContent value="queue" className="pt-4">
               <QueueStatus />

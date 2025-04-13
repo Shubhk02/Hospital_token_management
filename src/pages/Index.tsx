@@ -11,9 +11,12 @@ import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { toast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
   const [tokens, setTokens] = useState([
     {
       id: "1",
@@ -61,6 +64,37 @@ const Index = () => {
     };
     
     setTokens([newToken, ...tokens]);
+    toast({
+      title: "Token Generated",
+      description: `Your token ${tokenInfo.tokenNumber} for ${tokenInfo.department} has been created.`,
+    });
+  };
+
+  const handleNewTokenClick = () => {
+    document.getElementById("token-generator")?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleTokenCardClick = (id: string) => {
+    toast({
+      title: "Token Selected",
+      description: `You selected token with ID: ${id}`,
+    });
+  };
+
+  const handleRescheduleAppointment = () => {
+    navigate("/appointments");
+    toast({
+      title: "Reschedule Appointment",
+      description: "Navigate to appointments page to reschedule",
+    });
+  };
+
+  const handleCancelAppointment = () => {
+    toast({
+      title: "Cancel Appointment",
+      description: "Are you sure you want to cancel this appointment?",
+      variant: "destructive",
+    });
   };
 
   return (
@@ -84,6 +118,7 @@ const Index = () => {
               time="2:00 PM"
               doctor="Martinez"
               department="Pediatrics"
+              showActions={true}
             />
           </div>
 
@@ -104,7 +139,12 @@ const Index = () => {
         <div className="space-y-4 sm:space-y-6">
           <div className="flex items-center justify-between mb-1">
             <h2 className="text-base sm:text-lg font-semibold">My Tokens</h2>
-            <Button variant="ghost" size="sm" className="text-hospital-primary">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="text-hospital-primary hover:bg-hospital-secondary transition-colors"
+              onClick={handleNewTokenClick}
+            >
               <PlusCircle className="h-4 w-4 mr-1" />
               <span className="hidden xs:inline-block">New Token</span>
             </Button>
@@ -112,19 +152,26 @@ const Index = () => {
           
           <div className="space-y-3 max-h-60 sm:max-h-80 overflow-y-auto pr-1">
             {tokens.map((token) => (
-              <TokenCard
-                key={token.id}
-                tokenNumber={token.tokenNumber}
-                department={token.department}
-                doctor={token.doctor}
-                time={token.time}
-                estimatedWait={token.estimatedWait}
-                status={token.status}
-              />
+              <div 
+                key={token.id} 
+                onClick={() => handleTokenCardClick(token.id)}
+                className="cursor-pointer transition-transform hover:-translate-y-0.5"
+              >
+                <TokenCard
+                  tokenNumber={token.tokenNumber}
+                  department={token.department}
+                  doctor={token.doctor}
+                  time={token.time}
+                  estimatedWait={token.estimatedWait}
+                  status={token.status}
+                />
+              </div>
             ))}
           </div>
           
-          <TokenGenerator onTokenGenerated={handleTokenGenerated} />
+          <div id="token-generator">
+            <TokenGenerator onTokenGenerated={handleTokenGenerated} />
+          </div>
         </div>
       </div>
     </Layout>

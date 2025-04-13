@@ -15,6 +15,8 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { toast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -24,6 +26,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen, className }) => {
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
   
   const navItems = [
     { 
@@ -68,6 +71,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen, className }) => {
     }
   ];
 
+  const handleSignOut = () => {
+    toast({
+      title: "Signing out",
+      description: "You have been signed out successfully",
+    });
+    navigate("/");
+  };
+
   return (
     <div 
       className={cn(
@@ -79,11 +90,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen, className }) => {
     >
       <div className="flex flex-col h-full">
         <div className="p-4 border-b">
-          <div className="flex items-center">
-            <div className="h-8 w-8 mr-2 rounded-md bg-hospital-primary flex items-center justify-center">
+          <div 
+            className="flex items-center cursor-pointer group"
+            onClick={() => navigate("/")}
+          >
+            <div className="h-8 w-8 mr-2 rounded-md bg-hospital-primary flex items-center justify-center group-hover:scale-105 transition-transform">
               <span className="text-white font-semibold text-lg">H</span>
             </div>
-            <h2 className="text-xl font-bold text-hospital-dark">HealthQueue</h2>
+            <h2 className="text-xl font-bold text-hospital-dark group-hover:text-hospital-primary transition-colors">HealthQueue</h2>
           </div>
         </div>
         
@@ -113,6 +127,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen, className }) => {
           <Button 
             variant="ghost" 
             className="w-full flex items-center justify-start text-red-500 hover:bg-red-50 hover:text-red-600"
+            onClick={handleSignOut}
           >
             <LogOut className="h-5 w-5 mr-2" />
             Sign out

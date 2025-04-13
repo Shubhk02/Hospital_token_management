@@ -4,6 +4,7 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useLocation } from "react-router-dom";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -12,6 +13,7 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const isMobile = useIsMobile();
+  const location = useLocation();
 
   // Close sidebar when clicking outside on mobile
   useEffect(() => {
@@ -41,7 +43,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     if (isMobile) {
       setSidebarOpen(false);
     }
-  }, [isMobile]);
+  }, [location.pathname, isMobile]);
 
   return (
     <div className="flex min-h-screen bg-gray-50">
@@ -64,12 +66,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           {/* Overlay for mobile when sidebar is open */}
           {isMobile && sidebarOpen && (
             <div 
-              className="fixed inset-0 bg-black bg-opacity-50 z-40"
+              className="fixed inset-0 bg-black bg-opacity-50 z-40 animate-in fade-in duration-200"
               onClick={() => setSidebarOpen(false)}
             />
           )}
           
-          {children}
+          <div className="animate-in fade-in duration-300">
+            {children}
+          </div>
         </main>
       </div>
     </div>

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -10,28 +11,14 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  // Handle screen resize
-  useEffect(() => {
-    const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkScreenSize();
-    window.addEventListener("resize", checkScreenSize);
-    
-    return () => {
-      window.removeEventListener("resize", checkScreenSize);
-    };
-  }, []);
+  const isMobile = useIsMobile();
 
   // Close sidebar when clicking outside on mobile
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
       if (isMobile && sidebarOpen) {
-        const sidebar = document.getElementById("sidebar");
-        const sidebarTrigger = document.getElementById("sidebar-trigger");
+        const sidebar = document.querySelector(".sidebar-container");
+        const sidebarTrigger = document.querySelector(".sidebar-trigger");
         
         if (sidebar && 
             !sidebar.contains(event.target as Node) && 
@@ -49,21 +36,29 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     };
   }, [isMobile, sidebarOpen]);
 
+  // Close sidebar on route change for mobile
+  useEffect(() => {
+    if (isMobile) {
+      setSidebarOpen(false);
+    }
+  }, [isMobile]);
+
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar 
         isOpen={sidebarOpen} 
-        setIsOpen={setSidebarOpen} 
+        setIsOpen={setSidebarOpen}
+        className="sidebar-container"
       />
       
       <div className="flex-1 flex flex-col min-w-0 relative">
         <Header 
           setSidebarOpen={setSidebarOpen} 
-          className="sticky top-0 z-10"
+          className="sticky top-0 z-10 sidebar-trigger"
         />
         
         <main className={cn(
-          "flex-1 px-4 md:px-6 py-6",
+          "flex-1 px-3 sm:px-4 md:px-6 py-4 sm:py-6",
           isMobile && sidebarOpen && "overflow-hidden"
         )}>
           {/* Overlay for mobile when sidebar is open */}

@@ -10,8 +10,10 @@ import TokenGenerator from "@/components/dashboard/TokenGenerator";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Index = () => {
+  const isMobile = useIsMobile();
   const [tokens, setTokens] = useState([
     {
       id: "1",
@@ -63,13 +65,13 @@ const Index = () => {
 
   return (
     <Layout>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-1">Welcome to HealthQueue</h1>
-        <p className="text-gray-600">Manage your hospital visits and queue tokens efficiently</p>
+      <div className="mb-4 sm:mb-6">
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Welcome to HealthQueue</h1>
+        <p className="text-sm sm:text-base text-gray-600">Manage your hospital visits and queue tokens efficiently</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="md:col-span-2 space-y-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+        <div className="lg:col-span-2 space-y-4 sm:space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <CurrentToken 
               tokenNumber="C024" 
@@ -99,16 +101,16 @@ const Index = () => {
           </Tabs>
         </div>
         
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           <div className="flex items-center justify-between mb-1">
-            <h2 className="text-lg font-semibold">My Tokens</h2>
+            <h2 className="text-base sm:text-lg font-semibold">My Tokens</h2>
             <Button variant="ghost" size="sm" className="text-hospital-primary">
               <PlusCircle className="h-4 w-4 mr-1" />
-              New Token
+              <span className="hidden xs:inline-block">New Token</span>
             </Button>
           </div>
           
-          <div className="space-y-3 max-h-80 overflow-y-auto pr-1">
+          <div className="space-y-3 max-h-60 sm:max-h-80 overflow-y-auto pr-1">
             {tokens.map((token) => (
               <TokenCard
                 key={token.id}

@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -22,6 +23,8 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen, className }) => {
+  const isMobile = useIsMobile();
+  
   const navItems = [
     { 
       name: "Dashboard", 
@@ -70,6 +73,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen, className }) => {
       className={cn(
         "fixed inset-y-0 left-0 z-50 w-64 bg-white border-r transition-transform duration-300 ease-in-out transform",
         isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0",
+        "md:relative md:inset-auto",
         className
       )}
     >
@@ -95,6 +99,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen, className }) => {
                       ? "bg-hospital-primary text-white" 
                       : "text-gray-700 hover:bg-hospital-secondary hover:text-hospital-primary"
                   )}
+                  onClick={() => isMobile && setIsOpen(false)}
                 >
                   {item.icon}
                   <span className="ml-3">{item.name}</span>

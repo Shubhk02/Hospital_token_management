@@ -20,10 +20,7 @@ const Header: React.FC<HeaderProps> = ({ setSidebarOpen, sidebarOpen, className 
   const navigate = useNavigate();
   
   const handleNotificationClick = () => {
-    toast({
-      title: "Notifications",
-      description: "You have 3 unread notifications",
-    });
+    navigate("/notifications");
   };
   
   const handleLogoClick = () => {
@@ -64,9 +61,9 @@ const Header: React.FC<HeaderProps> = ({ setSidebarOpen, sidebarOpen, className 
           onClick={handleLogoClick}
         >
           <div className="h-8 w-8 mr-2 rounded-md bg-hospital-primary flex items-center justify-center group-hover:scale-105 transition-transform">
-            <span className="text-white font-semibold text-lg">H</span>
+            <span className="text-white font-semibold text-lg">C</span>
           </div>
-          <h2 className="text-xl font-bold text-hospital-dark hidden xs:inline-block group-hover:text-hospital-primary transition-colors">HealthQueue</h2>
+          <h2 className="text-xl font-bold text-hospital-dark hidden xs:inline-block group-hover:text-hospital-primary transition-colors">Careflow</h2>
         </div>
       </div>
       
@@ -117,7 +114,7 @@ const Header: React.FC<HeaderProps> = ({ setSidebarOpen, sidebarOpen, className 
         >
           <Avatar className="h-8 w-8 cursor-pointer hover:ring-2 hover:ring-hospital-primary transition-all">
             <AvatarImage src="" alt="User" />
-            <AvatarFallback className="bg-hospital-accent text-white">PT</AvatarFallback>
+            <AvatarFallback className="bg-hospital-accent text-white">AS</AvatarFallback>
           </Avatar>
         </Button>
       </div>

@@ -11,7 +11,10 @@ import {
   LogOut,
   Stethoscope,
   Hospital,
-  ChevronLeft
+  ChevronLeft,
+  Bell,
+  Activity,
+  Server
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -36,29 +39,34 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen, className }) => {
       path: "/" 
     },
     { 
-      name: "Appointments", 
-      icon: <CalendarDays className="h-5 w-5" />, 
+      name: "Deployments", 
+      icon: <Server className="h-5 w-5" />, 
       path: "/appointments" 
     },
     { 
-      name: "Queue Status", 
-      icon: <Clock className="h-5 w-5" />, 
+      name: "CI/CD Pipelines", 
+      icon: <Activity className="h-5 w-5" />, 
       path: "/queue" 
     },
     { 
-      name: "Departments", 
+      name: "Infrastructure", 
       icon: <Hospital className="h-5 w-5" />, 
       path: "/departments" 
     },
     { 
-      name: "Doctors", 
+      name: "Applications", 
       icon: <Stethoscope className="h-5 w-5" />, 
       path: "/doctors" 
     },
     { 
-      name: "Medical Records", 
+      name: "Logs & Monitoring", 
       icon: <FileText className="h-5 w-5" />, 
       path: "/records" 
+    },
+    { 
+      name: "Notifications", 
+      icon: <Bell className="h-5 w-5" />, 
+      path: "/notifications" 
     },
     { 
       name: "Profile", 
@@ -97,9 +105,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen, className }) => {
             onClick={() => navigate("/")}
           >
             <div className="h-8 w-8 mr-2 rounded-md bg-hospital-primary flex items-center justify-center group-hover:scale-105 transition-transform">
-              <span className="text-white font-semibold text-lg">H</span>
+              <span className="text-white font-semibold text-lg">C</span>
             </div>
-            <h2 className="text-xl font-bold text-hospital-dark group-hover:text-hospital-primary transition-colors">HealthQueue</h2>
+            <h2 className="text-xl font-bold text-hospital-dark group-hover:text-hospital-primary transition-colors">Careflow</h2>
           </div>
           
           {isMobile && (

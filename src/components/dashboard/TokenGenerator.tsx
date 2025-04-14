@@ -28,11 +28,11 @@ const TokenGenerator: React.FC<TokenGeneratorProps> = ({ onTokenGenerated }) => 
   const { toast } = useToast();
 
   const doctors = {
-    "Cardiology": ["Smith", "Johnson", "Williams"],
-    "Neurology": ["Brown", "Jones", "Garcia"],
-    "Orthopedics": ["Miller", "Davis", "Rodriguez"],
-    "Pediatrics": ["Martinez", "Hernandez", "Lopez"],
-    "General Medicine": ["Gonzalez", "Wilson", "Anderson"],
+    "Cardiology": ["Sharma", "Verma", "Patel"],
+    "Neurology": ["Gupta", "Singh", "Reddy"],
+    "Orthopedics": ["Mehta", "Kumar", "Joshi"],
+    "Pediatrics": ["Agarwal", "Iyer", "Desai"],
+    "General Medicine": ["Malhotra", "Bhat", "Kapoor"],
   };
 
   const handleTokenGeneration = () => {

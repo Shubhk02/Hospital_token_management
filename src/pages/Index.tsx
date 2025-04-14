@@ -22,7 +22,7 @@ const Index = () => {
       id: "1",
       tokenNumber: "C024",
       department: "Cardiology",
-      doctor: "Smith",
+      doctor: "Sharma",
       time: "10:30 AM",
       estimatedWait: "15 min",
       status: "waiting" as const
@@ -31,7 +31,7 @@ const Index = () => {
       id: "2",
       tokenNumber: "G048",
       department: "General Medicine",
-      doctor: "Wilson",
+      doctor: "Malhotra",
       time: "Yesterday, 2:15 PM",
       estimatedWait: "N/A",
       status: "complete" as const
@@ -40,7 +40,7 @@ const Index = () => {
       id: "3",
       tokenNumber: "P012",
       department: "Pediatrics",
-      doctor: "Martinez",
+      doctor: "Agarwal",
       time: "April 15, 2:00 PM",
       estimatedWait: "N/A",
       status: "scheduled" as const
@@ -107,8 +107,8 @@ const Index = () => {
   return (
     <Layout>
       <div className="mb-4 sm:mb-6">
-        <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Welcome to HealthQueue</h1>
-        <p className="text-sm sm:text-base text-gray-600">Manage your hospital visits and queue tokens efficiently</p>
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Welcome to Careflow</h1>
+        <p className="text-sm sm:text-base text-gray-600">DevOps monitoring and management platform</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -117,13 +117,13 @@ const Index = () => {
             <CurrentToken 
               tokenNumber="C024" 
               department="Cardiology"
-              doctor="Smith"
+              doctor="Sharma"
               status="waiting"
             />
             <UpcomingAppointment 
               date="April 15" 
               time="2:00 PM"
-              doctor="Martinez"
+              doctor="Agarwal"
               department="Pediatrics"
               showActions={true}
             />
@@ -131,8 +131,8 @@ const Index = () => {
 
           <Tabs defaultValue="departments" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="departments">Departments</TabsTrigger>
-              <TabsTrigger value="queue">Queue Status</TabsTrigger>
+              <TabsTrigger value="departments">Infrastructure</TabsTrigger>
+              <TabsTrigger value="queue">Deployment Status</TabsTrigger>
             </TabsList>
             <TabsContent value="departments" className="pt-4">
               <DepartmentSelector onSelectDepartment={handleSelectDepartment} />
@@ -145,7 +145,7 @@ const Index = () => {
         
         <div className="space-y-4 sm:space-y-6">
           <div className="flex items-center justify-between mb-1">
-            <h2 className="text-base sm:text-lg font-semibold">My Tokens</h2>
+            <h2 className="text-base sm:text-lg font-semibold">My Services</h2>
             <Button 
               variant="ghost" 
               size="sm" 
@@ -153,7 +153,7 @@ const Index = () => {
               onClick={handleNewTokenClick}
             >
               <PlusCircle className="h-4 w-4 mr-1" />
-              <span className="hidden xs:inline-block">New Token</span>
+              <span className="hidden xs:inline-block">New Service</span>
             </Button>
           </div>
           

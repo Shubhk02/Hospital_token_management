@@ -63,7 +63,13 @@ const Index = () => {
       status: "waiting" as const
     };
     
-    setTokens([newToken, ...tokens]);
+    console.log("Adding new token:", newToken); // Debug log
+    setTokens(prevTokens => {
+      const updatedTokens = [newToken, ...prevTokens];
+      console.log("Updated tokens:", updatedTokens); // Debug log
+      return updatedTokens;
+    });
+    
     toast({
       title: "Token Generated",
       description: `Your token ${tokenInfo.tokenNumber} for ${tokenInfo.department} has been created.`,

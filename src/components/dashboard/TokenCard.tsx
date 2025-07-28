@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Clock, User } from "lucide-react";
+import { Clock, User, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -10,6 +10,7 @@ interface TokenCardProps {
   department: string;
   doctor: string;
   time: string;
+  date?: string;
   estimatedWait: string;
   status: "waiting" | "ready" | "complete" | "scheduled";
   className?: string;
@@ -20,6 +21,7 @@ const TokenCard: React.FC<TokenCardProps> = ({
   department,
   doctor,
   time,
+  date,
   estimatedWait,
   status,
   className,
@@ -75,6 +77,12 @@ const TokenCard: React.FC<TokenCardProps> = ({
           <Clock className="h-4 w-4 mr-1 text-hospital-primary" />
           <span>{time}</span>
         </div>
+        {date && (
+          <div className="flex items-center text-sm mb-1">
+            <Calendar className="h-4 w-4 mr-1 text-hospital-primary" />
+            <span>{new Date(date).toLocaleDateString()}</span>
+          </div>
+        )}
         {status === "waiting" && (
           <div className="text-sm text-gray-500">
             Est. wait: <span className="font-medium">{estimatedWait}</span>

@@ -23,7 +23,8 @@ const Index = () => {
       tokenNumber: "C024",
       department: "Cardiology",
       doctor: "Sharma",
-      time: "10:30 AM",
+      time: "10:30",
+      date: "2024-01-15",
       estimatedWait: "15 min",
       status: "waiting" as const
     },
@@ -32,7 +33,8 @@ const Index = () => {
       tokenNumber: "G048",
       department: "General Medicine",
       doctor: "Malhotra",
-      time: "Yesterday, 2:15 PM",
+      time: "14:15",
+      date: "2024-01-14",
       estimatedWait: "N/A",
       status: "complete" as const
     },
@@ -41,7 +43,8 @@ const Index = () => {
       tokenNumber: "P012",
       department: "Pediatrics",
       doctor: "Agarwal",
-      time: "April 15, 2:00 PM",
+      time: "14:00",
+      date: "2024-04-15",
       estimatedWait: "N/A",
       status: "scheduled" as const
     }
@@ -52,13 +55,16 @@ const Index = () => {
     department: string;
     doctor: string;
     estimatedWait: string;
+    date: string;
+    time: string;
   }) => {
     const newToken = {
       id: Date.now().toString(),
       tokenNumber: tokenInfo.tokenNumber,
       department: tokenInfo.department,
       doctor: tokenInfo.doctor,
-      time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+      time: tokenInfo.time,
+      date: tokenInfo.date,
       estimatedWait: tokenInfo.estimatedWait,
       status: "waiting" as const
     };
@@ -72,7 +78,7 @@ const Index = () => {
     
     toast({
       title: "Token Generated",
-      description: `Your token ${tokenInfo.tokenNumber} for ${tokenInfo.department} has been created.`,
+      description: `Your token ${tokenInfo.tokenNumber} for ${tokenInfo.department} on ${tokenInfo.date} at ${tokenInfo.time}`,
     });
   };
 
@@ -175,6 +181,7 @@ const Index = () => {
                   department={token.department}
                   doctor={token.doctor}
                   time={token.time}
+                  date={token.date}
                   estimatedWait={token.estimatedWait}
                   status={token.status}
                 />

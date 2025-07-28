@@ -13,6 +13,7 @@ interface AppointmentProps {
   doctor: string;
   department: string;
   showActions?: boolean;
+  onCancel?: () => void;
 }
 
 const UpcomingAppointment: React.FC<AppointmentProps> = ({
@@ -21,6 +22,7 @@ const UpcomingAppointment: React.FC<AppointmentProps> = ({
   doctor,
   department,
   showActions = true,
+  onCancel,
 }) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -40,6 +42,9 @@ const UpcomingAppointment: React.FC<AppointmentProps> = ({
   const handleCancelConfirm = () => {
     setIsLoading(true);
     setTimeout(() => {
+      if (onCancel) {
+        onCancel();
+      }
       toast({
         title: "Appointment Cancelled",
         description: "Your appointment has been successfully cancelled.",

@@ -102,10 +102,14 @@ const Index = () => {
   };
 
   const handleCancelAppointment = () => {
+    // Find and remove the scheduled appointment from tokens
+    setTokens(prevTokens => {
+      return prevTokens.filter(token => token.status !== "scheduled");
+    });
+    
     toast({
-      title: "Cancel Appointment",
-      description: "Are you sure you want to cancel this appointment?",
-      variant: "destructive",
+      title: "Appointment Cancelled",
+      description: "Your scheduled appointment has been removed from services.",
     });
   };
 
@@ -138,6 +142,7 @@ const Index = () => {
               doctor="Agarwal"
               department="Pediatrics"
               showActions={true}
+              onCancel={handleCancelAppointment}
             />
           </div>
 

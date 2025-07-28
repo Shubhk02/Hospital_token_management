@@ -45,9 +45,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     }
   }, [location.pathname, isMobile]);
 
-  // Initialize sidebar state based on screen size
+  // Initialize sidebar state as closed by default
   useEffect(() => {
-    setSidebarOpen(!isMobile);
+    setSidebarOpen(false);
   }, [isMobile]);
 
   return (

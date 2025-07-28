@@ -1,8 +1,9 @@
 
-import React from "react";
-import { CalendarClock, Calendar, X } from "lucide-react";
+import React, { useState } from "react";
+import { CalendarClock, Calendar, X, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
 
@@ -22,21 +23,30 @@ const UpcomingAppointment: React.FC<AppointmentProps> = ({
   showActions = true,
 }) => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleReschedule = () => {
-    navigate("/appointments");
-    toast({
-      title: "Reschedule Appointment",
-      description: "Navigate to appointments page to reschedule",
-    });
+    setIsLoading(true);
+    setTimeout(() => {
+      navigate("/appointments");
+      toast({
+        title: "Reschedule Appointment",
+        description: "Navigate to appointments page to reschedule",
+      });
+      setIsLoading(false);
+    }, 500);
   };
 
-  const handleCancel = () => {
-    toast({
-      title: "Cancel Appointment",
-      description: "Are you sure you want to cancel this appointment?",
-      variant: "destructive",
-    });
+  const handleCancelConfirm = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      toast({
+        title: "Appointment Cancelled",
+        description: "Your appointment has been successfully cancelled.",
+        variant: "destructive",
+      });
+      setIsLoading(false);
+    }, 500);
   };
 
   return (
@@ -65,21 +75,47 @@ const UpcomingAppointment: React.FC<AppointmentProps> = ({
           <Button 
             variant="outline" 
             size="sm" 
-            className="w-full flex-1 text-xs sm:text-sm flex items-center justify-center"
+            className="w-full flex-1 text-xs sm:text-sm flex items-center justify-center hover-scale transition-all duration-200 border-primary/20 hover:border-primary/40"
             onClick={handleReschedule}
+            disabled={isLoading}
           >
             <Calendar className="mr-1 h-3.5 w-3.5" />
-            Reschedule
+            {isLoading ? "Processing..." : "Reschedule"}
           </Button>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="w-full flex-1 text-red-500 hover:text-red-600 hover:bg-red-50 text-xs sm:text-sm flex items-center justify-center"
-            onClick={handleCancel}
-          >
-            <X className="mr-1 h-3.5 w-3.5" />
-            Cancel
-          </Button>
+          
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="w-full flex-1 text-red-500 hover:text-red-600 hover:bg-red-50 text-xs sm:text-sm flex items-center justify-center hover-scale transition-all duration-200 border border-transparent hover:border-red-200"
+                disabled={isLoading}
+              >
+                <X className="mr-1 h-3.5 w-3.5" />
+                Cancel
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent className="animate-scale-in">
+              <AlertDialogHeader>
+                <AlertDialogTitle className="flex items-center gap-2">
+                  <AlertTriangle className="h-5 w-5 text-red-500" />
+                  Cancel Appointment
+                </AlertDialogTitle>
+                <AlertDialogDescription>
+                  Are you sure you want to cancel your appointment with Dr. {doctor} on {date} at {time}? This action cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel className="hover-scale">Keep Appointment</AlertDialogCancel>
+                <AlertDialogAction 
+                  onClick={handleCancelConfirm}
+                  className="bg-red-500 hover:bg-red-600 hover-scale"
+                >
+                  Yes, Cancel
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </CardFooter>
       )}
     </Card>

@@ -94,10 +94,19 @@ const Index = () => {
   };
 
   const handleRescheduleAppointment = () => {
+    // Update the scheduled appointment status to waiting (rescheduled)
+    setTokens(prevTokens => {
+      return prevTokens.map(token => 
+        token.status === "scheduled" 
+          ? { ...token, status: "waiting" as const }
+          : token
+      );
+    });
+    
     navigate("/appointments");
     toast({
-      title: "Reschedule Appointment",
-      description: "Navigate to appointments page to reschedule",
+      title: "Appointment Rescheduled",
+      description: "Your appointment has been moved to waiting status.",
     });
   };
 
@@ -120,6 +129,9 @@ const Index = () => {
     });
   };
 
+  // Find the scheduled appointment from tokens
+  const scheduledAppointment = tokens.find(token => token.status === "scheduled");
+
   return (
     <Layout>
       <div className="mb-4 sm:mb-6">
@@ -136,14 +148,21 @@ const Index = () => {
               doctor="Sharma"
               status="waiting"
             />
-            <UpcomingAppointment 
-              date="April 15" 
-              time="2:00 PM"
-              doctor="Agarwal"
-              department="Pediatrics"
-              showActions={true}
-              onCancel={handleCancelAppointment}
-            />
+            {scheduledAppointment ? (
+              <UpcomingAppointment 
+                date={scheduledAppointment.date} 
+                time={scheduledAppointment.time}
+                doctor={scheduledAppointment.doctor}
+                department={scheduledAppointment.department}
+                showActions={true}
+                onCancel={handleCancelAppointment}
+                onReschedule={handleRescheduleAppointment}
+              />
+            ) : (
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                <p className="text-gray-500 text-sm">No upcoming appointments</p>
+              </div>
+            )}
           </div>
 
           <Tabs defaultValue="departments" className="w-full">

@@ -14,6 +14,7 @@ interface AppointmentProps {
   department: string;
   showActions?: boolean;
   onCancel?: () => void;
+  onReschedule?: () => void;
 }
 
 const UpcomingAppointment: React.FC<AppointmentProps> = ({
@@ -23,6 +24,7 @@ const UpcomingAppointment: React.FC<AppointmentProps> = ({
   department,
   showActions = true,
   onCancel,
+  onReschedule,
 }) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -30,11 +32,15 @@ const UpcomingAppointment: React.FC<AppointmentProps> = ({
   const handleReschedule = () => {
     setIsLoading(true);
     setTimeout(() => {
-      navigate("/appointments");
-      toast({
-        title: "Reschedule Appointment",
-        description: "Navigate to appointments page to reschedule",
-      });
+      if (onReschedule) {
+        onReschedule();
+      } else {
+        navigate("/appointments");
+        toast({
+          title: "Reschedule Appointment",
+          description: "Navigate to appointments page to reschedule",
+        });
+      }
       setIsLoading(false);
     }, 500);
   };
